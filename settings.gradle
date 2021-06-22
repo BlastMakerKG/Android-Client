@@ -1,0 +1,3 @@
+include ':loclib'
+include ':app'
+rootProject.name = "My Track"
