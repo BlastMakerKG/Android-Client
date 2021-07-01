@@ -3,23 +3,10 @@ package com.kgprostudio.mytrack.dbhelper;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.location.Location;
-import android.os.Environment;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.kgprostudio.mytrack.MapsActivity;
-import com.kgprostudio.mytrack.connectingtoserver.Client;
 import com.kgprostudio.mytrack.locationpackage.LocationClass;
-import com.opencsv.CSVWriter;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import com.opencsv.CSVWriter;
 
 public class DateBaseTools {
 

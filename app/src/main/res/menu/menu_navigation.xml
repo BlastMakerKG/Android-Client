@@ -5,22 +5,19 @@
         android:id="@+id/map_nav_btn"
         android:title="Карта"
         android:icon="@drawable/ic_map"/>
+
     <item
         android:id="@+id/my_tracks_nav_btn"
         android:title="Маршруты"
         android:icon="@drawable/ic_tracks"/>
+
     <item
         android:id="@+id/server_con_nav_btn"
         android:title="Отправлять данные"
-        android:icon="@drawable/ic_connect"
-        />
+        android:icon="@drawable/ic_connect" />
 
     <item
         android:id="@+id/about_nav_btn"
         android:title="О приложении"
-       android:icon="@drawable/ic_about"
-
-        />
-
-
+       android:icon="@drawable/ic_about" />
 </menu>

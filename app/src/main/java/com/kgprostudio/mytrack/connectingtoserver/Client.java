@@ -1,22 +1,18 @@
 package com.kgprostudio.mytrack.connectingtoserver;
 
-import android.location.Location;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.kgprostudio.mytrack.MapsActivity;
+import com.kgprostudio.mytrack.MainActivity;
 import com.kgprostudio.mytrack.locationpackage.LocationClass;
 
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 
-public class Client extends MapsActivity{
+public class Client extends MainActivity {
 
-    static Socket socket;
+    private Socket socket;
 
-    public static  void ConnectToServer(String ip , int port)
+    public void ConnectToServer(String ip , int port)
     {
         Runnable runnable = new Runnable() {
             @Override
@@ -37,7 +33,7 @@ public class Client extends MapsActivity{
     }
 
 
-    public static  void MultiConnectToServer(String ip , int port)
+    public  void MultiConnectToServer(String ip , int port)
     {
         Runnable runnable = new Runnable() {
             @Override
@@ -58,7 +54,7 @@ public class Client extends MapsActivity{
 
     }
 
-    public static void TransferToServer(LocationClass loc)
+    public  void TransferToServer(LocationClass loc)
     {
         if(socket != null)
         {

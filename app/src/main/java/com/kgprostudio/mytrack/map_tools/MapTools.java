@@ -1,21 +1,19 @@
 package com.kgprostudio.mytrack.map_tools;
 
-import android.graphics.Color;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.kgprostudio.mytrack.MapsActivity;
+import com.kgprostudio.mytrack.MainActivity;
 import com.kgprostudio.mytrack.R;
 
-public class MapTools extends MapsActivity {
+public class MapTools extends MainActivity {
     static boolean flag = true;
     static PolylineOptions line =  new PolylineOptions();
     static  Marker markerName;
