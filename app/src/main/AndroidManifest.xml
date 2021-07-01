@@ -19,8 +19,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyTrack">
+        <activity android:name=".activity_login"></activity>
         <activity android:name=".AboutActivity" />
-        <activity android:name=".ConnectServerActivity" />
+        <activity android:name=".LoginActivity" />
         <activity android:name=".MyTracksActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -33,6 +34,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <activity
             android:name=".MapsActivity"

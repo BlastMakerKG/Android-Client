@@ -15,8 +15,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.os.PersistableBundle;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.MenuItem;
@@ -29,7 +27,6 @@ import android.widget.Toast;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.kgprostudio.mytrack.connectingtoserver.Client;
-import com.kgprostudio.mytrack.dbhelper.DateBaseTools;
 import com.kgprostudio.mytrack.locationpackage.LocationClass;
 import com.kgprostudio.mytrack.map_tools.MapTools;
 
@@ -45,7 +42,6 @@ import com.kgprostudio.mytrack.locationpackage.LocListenerInterface;
 import com.kgprostudio.mytrack.locationpackage.MyLocListener;
 import com.kgprostudio.mytrack.test.TestClass;
 
-import java.io.Serializable;
 import java.net.Socket;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -82,7 +78,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Date date_now = new Date();
     private int count;
     private Button record_btn, stop_btn, pause_btn, draw_btn, currLoc_btn, pause_rec_btn;
-    private boolean flag = true , flag_convert = true;
+    private boolean flag = true, flag_convert = true;
 
     private boolean clienCon = true;
     private double LatLngKoef = 0.0;
@@ -100,14 +96,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private int idCount = 1;
 
-    private long lastTime=0;
+    private long lastTime = 0;
     private Bundle savedInstanceState;
-     private double temp =0;
+    private double temp = 0;
 
     public static final String obj_key = "First_Object";
     public static final String LatLng_key = "coordinates_key";
     public static final String map_key = "map_key";
-    private ArrayList<LatLng> latLngs ;
+    private ArrayList<LatLng> latLngs;
     TestClass testClass;
 
     @Override
@@ -117,22 +113,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        if (savedInstanceState != null)
-        {
-           // mMap = savedInstanceState.getParcelable(map_key);
-            latLngs = savedInstanceState.getParcelableArrayList(LatLng_key);
-            for(int i = 0; i< latLngs.size(); i++) {
-                if(mMap!= null)
-                {
-                    MapTools.DrawLine(mMap, latLngs.get(i));
-                }
-                System.out.println(latLngs.get(i));
-            }
-        }
-        else
-        {
-            latLngs = new ArrayList<LatLng>();
-        }
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -166,7 +147,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void btnClickListener() {
         SQLiteDatabase database = dbHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        testClass = new TestClass(10,"Erlan");
+        testClass = new TestClass(10, "Erlan");
 
         record_btn.setOnClickListener(new View.OnClickListener() {
 
@@ -177,12 +158,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     mMap.addMarker(new MarkerOptions().position(startLoc).title("Start location")).setIcon(BitmapDescriptorFactory.defaultMarker(250));
                     Client.ConnectToServer("10.11.12.6", 24500);
                     clienCon = false;
-                   // timer_track.setBase(SystemClock.elapsedRealtime());
+                    // timer_track.setBase(SystemClock.elapsedRealtime());
                 }
                 timer_track.setBase(SystemClock.elapsedRealtime());
-                if(lastTime!=0)
-                {
-                    timer_track.setBase(timer_track.getBase()+SystemClock.elapsedRealtime() - lastTime);
+                if (lastTime != 0) {
+                    timer_track.setBase(timer_track.getBase() + SystemClock.elapsedRealtime() - lastTime);
                 }
 
                 timer_track.start();
@@ -222,7 +202,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
                 LatLng finishLoc = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-                MapTools.putMarkerInMap(mMap,finishLoc, "Track started location");
+                MapTools.putMarkerInMap(mMap, finishLoc, "Track started location");
 
                 Toast.makeText(MapsActivity.this, "Запись данных окончена и сохранена", Toast.LENGTH_SHORT).show();
                 record_btn.setEnabled(true);
@@ -262,21 +242,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 MapTools.setCameraGmap(mMap, currentLanLng);
-               // DateBaseTools.ShowDB(database, dbHelper);
+                // DateBaseTools.ShowDB(database, dbHelper);
 
-                for(int i = 0; i< latLngs.size(); i++) {
+                for (int i = 0; i < latLngs.size(); i++) {
                     System.out.println(latLngs.get(i));
                 }
             }
         });
     }
 
-    public void Record(long last_time)
-    {
+    public void Record(long last_time) {
 
-        if(last_time!=0)
-        {
-            timer_track.setBase(timer_track.getBase()+SystemClock.elapsedRealtime() - last_time);
+        if (last_time != 0) {
+            timer_track.setBase(timer_track.getBase() + SystemClock.elapsedRealtime() - last_time);
         }
         timer_track.start();
 
@@ -287,19 +265,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 while (pause_btn.isEnabled()) {
                     date_now = new Date();
                     date_format = dateFormat.format(date_now);
-                    locClass = new LocationClass(1, date_format, lastLocation.getLatitude()+last_time, lastLocation.getLongitude(), lastLocation.getAltitude(), distanc, speed);
+                    locClass = new LocationClass(2, date_format, lastLocation.getLatitude(), lastLocation.getLongitude(), lastLocation.getAltitude(), distanc, speed);
 
                     //  DateBaseTools.RecordToDB(database, contentValues, locClass, stop_btn);
 
                     try {
-                          Client.TransferToServer(locClass);
+                        Client.TransferToServer(locClass);
 
                     } catch (Exception exception) {
                         exception.printStackTrace();
                     }
                     if (currentLanLng != null) {
-                        temp= temp +0.001;
-                        currentLanLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()+temp);
+                        temp = temp + 0.001;
+                        currentLanLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude() + temp);
                         latLngs.add(currentLanLng);
                         Log.d("Coordinates", currentLanLng.toString());
                         // temp += 0.001;
@@ -323,11 +301,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Thread thread = new Thread(runnable);
         thread.start();
 
-        for (int i= 0; i< 5;i++)
-        {
+        for (int i = 0; i < 5; i++) {
             Client.MultiConnectToServer("localhost", 24509);
         }
-      }
+    }
 
     public void InitNav() {
         timer_track = findViewById(R.id.timer_track);
@@ -345,7 +322,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         stop_btn.setBackgroundResource(R.drawable.stop_png_btn);
         stop_btn.setVisibility(View.GONE);
 
-        pause_btn= findViewById(R.id.pause_btn);
+        pause_btn = findViewById(R.id.pause_btn);
         pause_btn.setBackgroundResource(R.drawable.pause_png_btn);
         pause_btn.setVisibility(View.GONE);
         pause_btn.setEnabled(false);
@@ -375,7 +352,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     case R.id.map_nav_btn:
                         return true;
                     case R.id.server_con_nav_btn:
-                        startActivity(new Intent(getApplicationContext(), ConnectServerActivity.class));
+                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.about_nav_btn:
@@ -391,20 +368,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        if(prevActivity!= null) {
+        if (prevActivity != null) {
             // So the orientation did change
             // Restore some field for example
             this.mMap = prevActivity.mMap;
-        }
-
-        else {
+        } else {
             mMap = googleMap;
             mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
 
             if (lastLocation != null) {
                 LatLng currentLoc = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
 
-               // mMap.addMarker(new MarkerOptions().position(currentLoc).title("Marker in Sydney"));
+                // mMap.addMarker(new MarkerOptions().position(currentLoc).title("Marker in Sydney"));
 
                 MapTools.putMarkerInMap(mMap, currentLoc, "Track started location");
                 LatLng ltnLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());

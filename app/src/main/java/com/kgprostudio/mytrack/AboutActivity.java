@@ -15,12 +15,14 @@ public class AboutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+
         InitNav();
     }
 
     public  void InitNav() {
         BottomNavigationView bottomNavigationView = findViewById(R.id.nav_menu);
         bottomNavigationView.setSelectedItemId(R.id.about_nav_btn);
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuitem) {
@@ -34,7 +36,7 @@ public class AboutActivity extends AppCompatActivity {
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.server_con_nav_btn:
-                        startActivity(new Intent(getApplicationContext(), ConnectServerActivity.class));
+                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.about_nav_btn:

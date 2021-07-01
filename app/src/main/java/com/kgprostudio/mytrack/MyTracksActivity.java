@@ -37,7 +37,7 @@ public class MyTracksActivity extends AppCompatActivity {
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.server_con_nav_btn:
-                        startActivity(new Intent(getApplicationContext(), ConnectServerActivity.class));
+                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.about_nav_btn:
