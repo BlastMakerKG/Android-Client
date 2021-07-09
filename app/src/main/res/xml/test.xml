@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <locations>
+        <id  value = "1">
+        <location>
+
+            <date>36</date>
+            <lat>  42.653</lat>
+            <lon>72.78623</lon>
+            <alt>  720</alt>
+            <distance> 1345</distance>
+            <velocity> 24.78</velocity>
+        </location>
+        </id>
+    </locations>
+
+</PreferenceScreen>

@@ -5,20 +5,6 @@ import java.io.Serializable;
 public class LocationClass implements Serializable {
 
     /**
-     * @return the ID
-     */
-    public int getID() {
-        return ID;
-    }
-
-    /**
-     * @param ID the ID to set
-     */
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
-    /**
      * @return the date
      */
     public String getDate() {
@@ -102,7 +88,6 @@ public class LocationClass implements Serializable {
         this.velocity = velocity;
     }
 
-    private int ID = 0;
     private String date;
     private double lat;
     private double lon;
@@ -110,8 +95,11 @@ public class LocationClass implements Serializable {
     private double distance;
     private double velocity;
 
+    public  LocationClass(){
+
+    }
+
     public LocationClass(int id, String date, double lat, double lon, double alt, double distance, double velocity) {
-        this.ID = id;
         this.date = date;
         this.lat = lat;
         this.lon = lon;
@@ -121,7 +109,7 @@ public class LocationClass implements Serializable {
     }
 
     public String ToString() {
-        return ID + "," + date + "," + lat + "," + lon + "," + alt + "," + distance + "," + velocity;
+        return date + "," + lat + "," + lon + "," + alt + "," + distance + "," + velocity;
     }
 
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<contacts>
+    <contact
+        first_name="Иван"
+        last_name="Иваненко"
+        phone="090507"/>
+    <contact
+        first_name="Василий"
+        last_name="Пупкин"
+        phone="123456"/>
+    <contact
+        first_name="Денис"
+        last_name="Денисенко"
+        phone="654879"/>
+    <contact
+        first_name="Данил"
+        last_name="Даниленко"
+        phone="234587"/>
+</contacts>
