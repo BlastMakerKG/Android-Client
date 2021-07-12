@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.kgprostudio.mytrack.connectingtoserver.Client;
+import com.kgprostudio.mytrack.file_system.XMLWorker;
 import com.kgprostudio.mytrack.locationpackage.LocationClass;
 import com.kgprostudio.mytrack.map_tools.MapTools;
 
@@ -181,6 +182,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     LatLng startLoc = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
                     mMap.addMarker(new MarkerOptions().position(startLoc).title("Start location")).setIcon(BitmapDescriptorFactory.defaultMarker(250));
 
+
                     for(int i = 0; i < 4; i++)
                     {
                         clients[i] = new Client();
@@ -256,6 +258,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         pause_rec_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                XMLWorker file_worker = new XMLWorker();
+                file_worker.writeFile(locationClass[1]);
                 pause_rec_btn.setEnabled(false);
                 pause_rec_btn.setVisibility(View.GONE);
 
@@ -308,7 +313,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     try {
                         for (int i=0; i<4; i++)
                         {
-                            clients[i].TransferToServer(locationClass[i]);
+                            clients[i].TransferToServer(locationClass[i],i);
                         }
 
                     } catch (Exception exception) {
@@ -390,7 +395,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     case R.id.map_nav_btn:
                         return true;
                     case R.id.server_con_nav_btn:
-                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                        startActivity(new Intent(getApplicationContext(), TruckPointActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.about_nav_btn:

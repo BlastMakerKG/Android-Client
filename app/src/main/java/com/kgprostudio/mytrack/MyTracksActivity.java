@@ -30,7 +30,7 @@ public class MyTracksActivity extends AppCompatActivity {
         }
         glSurfaceView = new GLSurfaceView(this);
         glSurfaceView.setEGLContextClientVersion(2);
-        glSurfaceView.setRenderer(new OpenGLRenderer(this));
+        glSurfaceView.setRenderer(new OpenGLRenderer());
         setContentView(glSurfaceView);
     }
 

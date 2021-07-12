@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TypeSelectionActivity">
+    tools:context=".authorization_activities.TypeSelectionActivity">
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline6"
         android:layout_width="wrap_content"
@@ -35,8 +35,8 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="428dp"
-        android:layout_height="197dp"
+        android:layout_width="437dp"
+        android:layout_height="137dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +63,6 @@
         android:id="@+id/truck_btn"
         android:layout_width="380dp"
         android:layout_height="102dp"
-        android:layout_marginTop="84dp"
         android:background="@color/black"
         android:backgroundTint="@color/white"
         android:drawableLeft="@drawable/track_icon_1"
@@ -75,7 +74,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.021" />
+        app:layout_constraintVertical_bias="0.19" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/excavator_btn"

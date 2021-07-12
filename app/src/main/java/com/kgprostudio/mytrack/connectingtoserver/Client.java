@@ -54,7 +54,7 @@ public class Client extends MainActivity {
 
     }
 
-    public  void TransferToServer(LocationClass loc)
+    public  void TransferToServer(LocationClass loc, int id)
     {
         if(socket != null)
         {
@@ -63,7 +63,7 @@ public class Client extends MainActivity {
                 public void run() {
                     try {
                         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                        out.println(loc.ToString());
+                        out.println(id+","+loc.ToString());
                     }
                     catch (Exception ex) {
                         ex.printStackTrace();

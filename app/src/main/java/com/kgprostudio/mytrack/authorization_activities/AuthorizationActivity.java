@@ -1,4 +1,4 @@
-package com.kgprostudio.mytrack;
+package com.kgprostudio.mytrack.authorization_activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.kgprostudio.mytrack.R;
 
 public class AuthorizationActivity extends AppCompatActivity {
 
@@ -35,7 +37,7 @@ public class AuthorizationActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Вход выполнен!",Toast.LENGTH_SHORT).show();
 
             // Выполняем переход на другой экран:
-            Intent intent = new Intent(AuthorizationActivity.this,ConnectActivity.class);
+            Intent intent = new Intent(AuthorizationActivity.this, ConnectActivity.class);
             startActivity(intent);
         }
 
