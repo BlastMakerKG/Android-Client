@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.kgprostudio.mytrack.MainActivity;
 import com.kgprostudio.mytrack.R;
+import com.kgprostudio.mytrack.graph.HodographPoints;
 import com.kgprostudio.mytrack.locationpackage.LocationClass;
 
 import java.io.BufferedReader;
@@ -15,12 +16,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class XMLWorker {
 
     private static final String fileName = "hello.xml";
 
-    public void writeFile(LocationClass loc) {
+    public void writeFile(ArrayList<HodographPoints> hodographPoints) {
         try {
             /*
              * Создается объект файла, при этом путь к файлу находиться методом класcа Environment
@@ -28,8 +30,13 @@ public class XMLWorker {
              */
             File myFile = new File(Environment.getExternalStorageDirectory().toString() + "/" + fileName);
             myFile.createNewFile();                                         // Создается файл, если он не был создан
-            FileOutputStream outputStream = new FileOutputStream(myFile);   // После чего создаем поток для записи
-            outputStream.write(loc.ToString().getBytes());                            // и производим непосредственно запись
+            FileOutputStream outputStream = new FileOutputStream(myFile);
+            for (HodographPoints temp: hodographPoints
+                 ) {
+                outputStream.write((temp.toString()+"\n").getBytes());
+
+            }// После чего создаем поток для записи
+                                      // и производим непосредственно запись
             outputStream.close();
 
             Log.d("File","Файл успешно создан");

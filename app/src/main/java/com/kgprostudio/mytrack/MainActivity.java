@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.kgprostudio.mytrack.connectingtoserver.Client;
 import com.kgprostudio.mytrack.file_system.XMLWorker;
+import com.kgprostudio.mytrack.graph.HodographPoints;
 import com.kgprostudio.mytrack.locationpackage.LocationClass;
 import com.kgprostudio.mytrack.map_tools.MapTools;
 
@@ -112,6 +113,10 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     Client[] clients = new Client[4];
 
     LocationClass[] locationClass = new LocationClass[10];
+    ArrayList<HodographPoints> hodographPoints = new ArrayList<HodographPoints>();
+
+    Date date_start;
+    Date date_current;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,6 +184,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 if (clienCon && ip!= null && port != 0) {
+                    date_start = new Date();
                     LatLng startLoc = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
                     mMap.addMarker(new MarkerOptions().position(startLoc).title("Start location")).setIcon(BitmapDescriptorFactory.defaultMarker(250));
 
@@ -217,6 +223,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
 
+                XMLWorker file_worker = new XMLWorker();
+                file_worker.writeFile(hodographPoints);
                 timer_track.stop();
                 timer_track.setBase(SystemClock.elapsedRealtime());
                 lastTime = 0;
@@ -259,8 +267,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
 
-                XMLWorker file_worker = new XMLWorker();
-                file_worker.writeFile(locationClass[1]);
+
                 pause_rec_btn.setEnabled(false);
                 pause_rec_btn.setVisibility(View.GONE);
 
@@ -304,7 +311,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     locationClass[1] = new LocationClass(2, date_format, lastLocation.getLatitude()+count, lastLocation.getLongitude(), lastLocation.getAltitude(), distanc, speed);
                     locationClass[2] = new LocationClass(3, date_format, lastLocation.getLatitude(), lastLocation.getLongitude()+count, lastLocation.getAltitude(), distanc, speed);
                     locationClass[3] = new LocationClass(4, date_format, lastLocation.getLatitude(), lastLocation.getLongitude()-count, lastLocation.getAltitude(), distanc, speed);
-
+                    date_current = new Date();
+                    hodographPoints.add(new HodographPoints(lastLocation.getSpeed(),distanc,date_current));
 
                     count += 0.1;
 
