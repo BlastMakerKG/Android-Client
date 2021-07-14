@@ -57,7 +57,7 @@ public class DrawView extends View {
             canvas.drawARGB(80, 255, 255, 255);
             p.setColor(Color.BLACK);
             p.setStrokeWidth(15);
-            canvas.drawLine(50, 50, 50, 850, p);
+            canvas.drawLine(50, 50, 50, 851, p);
             canvas.drawLine(49, 850, 850, 850, p);
             p.setStyle(Paint.Style.STROKE);
 
