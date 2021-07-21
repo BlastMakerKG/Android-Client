@@ -8,6 +8,15 @@
     android:orientation="horizontal"
     tools:context=".TruckPointActivity">
 
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/graph1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/nav_menu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_menu"
@@ -24,25 +33,17 @@
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
-    <com.kgprostudio.mytrack.graph.DrawView
-        android:id="@+id/draw_view"
-        android:layout_width="481dp"
-        android:layout_height="450dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/nav_menu"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/draw_btn"
-        android:layout_width="162dp"
-        android:layout_height="84dp"
-        android:layout_marginEnd="172dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
         android:onClick="onClick"
         android:text="Button"
-        app:layout_constraintBottom_toTopOf="@+id/nav_menu"
+        app:layout_constraintBottom_toBottomOf="@+id/graph1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.437" />
+        app:layout_constraintHorizontal_bias="0.078"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

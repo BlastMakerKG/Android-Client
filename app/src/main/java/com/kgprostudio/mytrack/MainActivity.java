@@ -29,6 +29,7 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.kgprostudio.mytrack.connectingtoserver.Client;
 import com.kgprostudio.mytrack.file_system.XMLWorker;
 import com.kgprostudio.mytrack.graph.HodographPoints;
+import com.kgprostudio.mytrack.graph.TimeClass;
 import com.kgprostudio.mytrack.locationpackage.LocationClass;
 import com.kgprostudio.mytrack.map_tools.MapTools;
 
@@ -118,6 +119,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     Date date_start;
     Date date_current;
 
+    private ArrayList<TimeClass> timeClasses = new ArrayList<>();
+    TimeClass timeClass;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //savedInstanceState = new Bundle();
@@ -173,6 +177,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
     }
+
+
 
     public void btnClickListener() {
         SQLiteDatabase database = dbHelper.getWritableDatabase();
@@ -306,6 +312,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 double count= 0.1;
                 while (pause_btn.isEnabled()) {
                     date_now = new Date();
+                    timeClass = new TimeClass(count, count,timer_track.getBase());
+                    timeClasses.add(timeClass);
+                    Intent myObj = new Intent(MainActivity.this, TruckPointActivity.class);
+                    myObj.putExtra("time_date", timeClass);
+                    Log.d("Object" ,"Упакован");
                     date_format = dateFormat.format(date_now);
                     locationClass[0] = new LocationClass(1, date_format, lastLocation.getLatitude()-count, lastLocation.getLongitude(), lastLocation.getAltitude(), distanc, speed);
                     locationClass[1] = new LocationClass(2, date_format, lastLocation.getLatitude()+count, lastLocation.getLongitude(), lastLocation.getAltitude(), distanc, speed);
@@ -342,7 +353,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         });
 
                         try {
-                            Thread.sleep(2000);
+                            Thread.sleep(1000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }

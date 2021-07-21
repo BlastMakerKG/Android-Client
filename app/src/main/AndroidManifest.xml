@@ -23,8 +23,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-
-
+        <activity android:name=".connectingtoserver.Client"></activity>
+        <activity android:name=".TruckPointActivity"></activity>
+        <activity android:name=".MyTracksActivity"></activity>
+        <activity android:name=".MainActivity"></activity>
         <activity android:name=".authorization_activities.AuthorizationActivity"></activity>
         <activity android:name=".authorization_activities.ConnectActivity">      </activity>
 
@@ -46,7 +48,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name =".TruckPointActivity"
+            android:name =".authorization_activities.TypeSelectionActivity"
             android:label="@string/title_activity_maps"
             >
             <intent-filter>
