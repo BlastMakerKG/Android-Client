@@ -120,6 +120,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     Date date_current;
 
     private ArrayList<TimeClass> timeClasses = new ArrayList<>();
+    private ArrayList<Integer> test_int = new ArrayList<>();
     TimeClass timeClass;
 
     @Override
@@ -309,13 +310,17 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                int count_int  = 1;
                 double count= 0.1;
                 while (pause_btn.isEnabled()) {
                     date_now = new Date();
+                    test_int.add(count_int);
+                    count_int++;
                     timeClass = new TimeClass(count, count,timer_track.getBase());
                     timeClasses.add(timeClass);
                     Intent myObj = new Intent(MainActivity.this, TruckPointActivity.class);
                     myObj.putExtra("time_date", timeClass);
+                    myObj.putExtra("int_test", count_int);
                     Log.d("Object" ,"Упакован");
                     date_format = dateFormat.format(date_now);
                     locationClass[0] = new LocationClass(1, date_format, lastLocation.getLatitude()-count, lastLocation.getLongitude(), lastLocation.getAltitude(), distanc, speed);
@@ -413,7 +418,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         return true;
                     case R.id.map_nav_btn:
                         return true;
-                    case R.id.server_con_nav_btn:
+                    case R.id.truck_point_btn:
                         startActivity(new Intent(getApplicationContext(), TruckPointActivity.class));
                         overridePendingTransition(0, 0);
                         return true;

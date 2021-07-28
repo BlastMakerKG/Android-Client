@@ -18,14 +18,16 @@ public class TypeSelectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_type_selection);
-
-        truck_btn = findViewById(R.id.truck_btn);
-        excavator_btn = findViewById(R.id.excavator_btn);
-
+        init();
     }
 
-    public void onClick(View view) {
+    public void init(){
+        truck_btn = findViewById(R.id.truck_btn);
+        excavator_btn = findViewById(R.id.excavator_btn);
+        onClick();
+    }
 
+    public void onClick() {
     truck_btn.setOnClickListener(new View.OnClickListener() {
       @Override
          public void onClick(View v) {
@@ -43,6 +45,5 @@ public class TypeSelectionActivity extends AppCompatActivity {
             startActivity(intent);
         }
     });
-
     }
 }

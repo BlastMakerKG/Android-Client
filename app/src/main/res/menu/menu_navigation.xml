@@ -12,7 +12,7 @@
         android:icon="@drawable/ic_tracks"/>
 
     <item
-        android:id="@+id/server_con_nav_btn"
+        android:id="@+id/truck_point_btn"
         android:title="Отправлять данные"
         android:icon="@drawable/ic_connect" />
 

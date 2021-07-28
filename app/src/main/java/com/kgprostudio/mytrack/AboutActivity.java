@@ -34,7 +34,7 @@ public class AboutActivity extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
-                    case R.id.server_con_nav_btn:
+                    case R.id.truck_point_btn:
                         startActivity(new Intent(getApplicationContext(), TruckPointActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
