@@ -9,9 +9,6 @@ public class LocationResourceParser {
     public ArrayList<LocationClass> getLocations() {
         return locations;
     }
-
-
-
     private ArrayList<LocationClass> locations;
 
     public LocationResourceParser() {
