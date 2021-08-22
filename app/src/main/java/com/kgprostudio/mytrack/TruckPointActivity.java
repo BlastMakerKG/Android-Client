@@ -1,188 +1,248 @@
 package com.kgprostudio.mytrack;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import androidx.core.content.ContextCompat;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+import android.view.WindowManager;
+import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
-import com.kgprostudio.mytrack.graph.DrawView;
-import com.kgprostudio.mytrack.graph.TimeClass;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.Legend.LegendForm;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.components.YAxis.AxisDependency;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.xxmassdeveloper.mpchartexample.notimportant.DemoBase;
 
+public class TruckPointActivity extends DemoBase implements
+        OnChartValueSelectedListener {
 
-import java.util.ArrayList;
+    private LineChart chart;
 
-public class TruckPointActivity extends AppCompatActivity {
-
-    private final static String TAG = "TruckPointActivity";
-    DrawView drawView;
-
-    Button draw;
-    LineGraphSeries<DataPoint> series;
-    LineGraphSeries<DataPoint> series1;
-    ArrayList<Integer> test = new ArrayList<>();
-
-    ArrayList<TimeClass> timeClassArrayList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-      setContentView(R.layout.activity_truck_point);
-      init();
+        super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_realtime_linechart);
+
+        setTitle("RealtimeLineChartActivity");
+
+        chart = findViewById(R.id.chart1);
+        chart.setOnChartValueSelectedListener(this);
+
+        // enable description text
+        chart.getDescription().setEnabled(true);
+
+        // enable touch gestures
+        chart.setTouchEnabled(true);
+
+        // enable scaling and dragging
+        chart.setDragEnabled(true);
+        chart.setScaleEnabled(true);
+        chart.setDrawGridBackground(false);
+
+        // if disabled, scaling can be done on x- and y-axis separately
+        chart.setPinchZoom(true);
+
+        // set an alternative background color
+        chart.setBackgroundColor(Color.LTGRAY);
+
+        LineData data = new LineData();
+        data.setValueTextColor(Color.WHITE);
+
+        // add empty data
+        chart.setData(data);
+
+        // get the legend (only possible after setting data)
+        Legend l = chart.getLegend();
+
+        // modify the legend ...
+        l.setForm(LegendForm.LINE);
+        l.setTypeface(tfLight);
+        l.setTextColor(Color.WHITE);
+
+        XAxis xl = chart.getXAxis();
+        xl.setTypeface(tfLight);
+        xl.setTextColor(Color.WHITE);
+        xl.setDrawGridLines(false);
+        xl.setAvoidFirstLastClipping(true);
+        xl.setEnabled(true);
+
+        YAxis leftAxis = chart.getAxisLeft();
+        leftAxis.setTypeface(tfLight);
+        leftAxis.setTextColor(Color.WHITE);
+        leftAxis.setAxisMaximum(100f);
+        leftAxis.setAxisMinimum(0f);
+        leftAxis.setDrawGridLines(true);
+
+        YAxis rightAxis = chart.getAxisRight();
+        rightAxis.setEnabled(false);
+
     }
 
-    public void init(){
-        BottomNavigationView bottomNavigationView = findViewById(R.id.nav_menu);
-        bottomNavigationView.setSelectedItemId(R.id.truck_point_btn);
+    private void addEntry() {
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuitem) {
-                switch (menuitem.getItemId()) {
-                    case R.id.my_tracks_nav_btn:
-                        startActivity(new Intent(getApplicationContext(), MyTracksActivity.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.map_nav_btn:
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.truck_point_btn:
-                        return true;
-                    case R.id.about_nav_btn:
-                        startActivity(new Intent(getApplicationContext(), AboutActivity.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-                }
-                return false;
+        LineData data = chart.getData();
+
+        if (data != null) {
+
+            ILineDataSet set = data.getDataSetByIndex(0);
+            // set.addEntry(...); // can be called as well
+
+            if (set == null) {
+                set = createSet();
+                data.addDataSet(set);
             }
-        });
+
+            data.addEntry(new Entry(set.getEntryCount(), (float) (Math.random() * 40) + 30f), 0);
+            data.notifyDataChanged();
+
+            // let the chart know it's data has changed
+            chart.notifyDataSetChanged();
+
+            // limit the number of visible entries
+            chart.setVisibleXRangeMaximum(120);
+            // chart.setVisibleYRange(30, AxisDependency.LEFT);
+
+            // move to the latest entry
+            chart.moveViewToX(data.getEntryCount());
+
+            // this automatically refreshes the chart (calls invalidate())
+            // chart.moveViewTo(data.getXValCount()-7, 55f,
+            // AxisDependency.LEFT);
+        }
     }
 
-    public void onClick(View view){
+    private LineDataSet createSet() {
 
+        LineDataSet set = new LineDataSet(null, "Dynamic Data");
+        set.setAxisDependency(AxisDependency.LEFT);
+        set.setColor(ColorTemplate.getHoloBlue());
+        set.setCircleColor(Color.WHITE);
+        set.setLineWidth(2f);
+        set.setCircleRadius(4f);
+        set.setFillAlpha(65);
+        set.setFillColor(ColorTemplate.getHoloBlue());
+        set.setHighLightColor(Color.rgb(244, 117, 117));
+        set.setValueTextColor(Color.WHITE);
+        set.setValueTextSize(9f);
+        set.setDrawValues(false);
+        return set;
+    }
 
+    private Thread thread;
 
-        try {
-            Runnable runnable = new Runnable() {
-                int count =0, test_value =0;
-                @Override
-                public void run() {
-                    GraphView graph = (GraphView) findViewById(R.id.graph1);
-                    series = new LineGraphSeries<DataPoint>();
-                    series.setColor(Color.BLUE);
-                    series1 = new LineGraphSeries<DataPoint>();
-                    series1.setColor(Color.RED);
+    private void feedMultiple() {
 
-                    while(true){
+        if (thread != null)
+            thread.interrupt();
 
+        final Runnable runnable = new Runnable() {
 
-                        Intent myObj = getIntent();
-                        TimeClass time =  (TimeClass) myObj.getParcelableExtra("time_date");
-                        test_value =  myObj.getIntExtra("test_int",0);
-                        Log.d("Count" , timeClassArrayList.size() +" размер");
-                        timeClassArrayList.add(time);
-                        try {
-                            Thread.sleep(1000);
-                            graph.removeAllSeries();
-                            graph.addSeries(series);
-                            graph.addSeries(series1);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        Log.d("Count" , timeClassArrayList.size() +" размер");
-                        System.out.println(timeClassArrayList.size() + " размер");
-                        series.appendData(new DataPoint(count, count), false, 20);
-                        series1.appendData(new DataPoint( count,count+(Math.random()*2)+count), false, 20);
-                        count++;
+            @Override
+            public void run() {
+                addEntry();
+            }
+        };
+
+        thread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                for (int i = 0; i < 1000; i++) {
+
+                    // Don't generate garbage runnables inside the loop.
+                    runOnUiThread(runnable);
+
+                    try {
+                        Thread.sleep(25);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
+            }
+        });
 
+        thread.start();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.realtime, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.viewGithub: {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse("https://github.com/PhilJay/MPAndroidChart/blob/master/MPChartExample/src/com/xxmassdeveloper/mpchartexample/RealtimeLineChartActivity.java"));
+                startActivity(i);
+                break;
+            }
+            case R.id.actionAdd: {
+                addEntry();
+                break;
+            }
+            case R.id.actionClear: {
+                chart.clearValues();
+                Toast.makeText(this, "Chart cleared!", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.actionFeedMultiple: {
+                feedMultiple();
+                break;
+            }
+            case R.id.actionSave: {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    saveToGallery();
+                } else {
+                    requestStoragePermission(chart);
+                }
+                break;
+            }
         }
-        catch (Exception ex){
-            ex.printStackTrace();
-        }
-
-
-    //        Runnable run = new Runnable() {
-    //            @Override
-    //            public void run() {
-    //                double y,x;
-    //                x = -5.0;
-    //                for (int i=0; i <10;i++){
-    //                GraphView graph = (GraphView) findViewById(R.id.graph1);
-    //
-    //                series1 = new LineGraphSeries<DataPoint>();
-    //                for(int j =0; j<10; j++) {
-    //                    x = x + 0.1;
-    //                    y = Math.sin(x);
-    //                    series.appendData(new DataPoint(x, y), true, 100);
-    //                    series1.appendData(new DataPoint(x+1, y+1), true, 100);
-    //                }
-    //                runOnUiThread(new Runnable() {
-    //                    @Override
-    //                    public void run() {
-    //                        graph.addSeries(series);
-    //                        graph.addSeries(series1);
-    //                    }
-    //                });
-//
-    //                    try {
-    //                        Thread.sleep(2000);
-    //                    } catch (InterruptedException e) {
-    //                        e.printStackTrace();
-    //                    }
-    //                }
-    //        }
-    //    };
-    //    Thread thread = new Thread(run);
-    //    thread.start();
-
-
+        return true;
     }
+
     @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        Log.d(TAG, "onDestroy");
+    protected void saveToGallery() {
+        saveToGallery(chart, "RealtimeLineChartActivity");
     }
+
     @Override
-    protected void onStop(){
-        super.onStop();
-        Log.d(TAG, "onStop");
+    public void onValueSelected(Entry e, Highlight h) {
+        Log.i("Entry selected", e.toString());
     }
+
     @Override
-    protected void onStart(){
-        super.onStart();
-        Log.d(TAG, "onStart");
+    public void onNothingSelected() {
+        Log.i("Nothing selected", "Nothing selected.");
     }
+
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
-        Log.d(TAG, "onPause");
+
+        if (thread != null) {
+            thread.interrupt();
+        }
     }
-    @Override
-    protected void onResume(){
-        super.onResume();
-        Log.d(TAG, "onResume");
-    }
-
-    @Override
-    protected void onRestart(){
-        super.onRestart();
-        Log.d(TAG, "onRestart");
-    }
-
-
-
 }

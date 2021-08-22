@@ -23,15 +23,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <activity android:name=".connectingtoserver.Client"></activity>
-        <activity android:name=".TruckPointActivity"></activity>
-        <activity android:name=".MyTracksActivity"></activity>
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".authorization_activities.AuthorizationActivity"></activity>
-        <activity android:name=".authorization_activities.ConnectActivity">      </activity>
-
-        <activity android:name=".AboutActivity"   />
-
+        <activity android:name=".move_left_out_activity"></activity>
+        <activity android:name=".move_left_in_activity" />
+        <activity android:name=".connectingtoserver.Client" />
+        <activity android:name=".TruckPointActivity" />
+        <activity android:name=".MyTracksActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".authorization_activities.AuthorizationActivity" />
+        <activity android:name=".authorization_activities.ConnectActivity" />
+        <activity android:name=".AboutActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -48,15 +48,14 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name =".authorization_activities.TypeSelectionActivity"
-            android:label="@string/title_activity_maps"
-            >
+            android:name=".authorization_activities.TypeSelectionActivity"
+            android:label="@string/title_activity_maps">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
