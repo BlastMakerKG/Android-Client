@@ -40,8 +40,8 @@ public class HodographPoints {
     public String toString() {
         return "HodographPoints{" +
                 "velocity=" + velocity +
-                ", distance=" + distance +
-                ", time=" + time +
+                ",distance=" + distance +
+                ",time=" + time +
                 '}';
     }
 

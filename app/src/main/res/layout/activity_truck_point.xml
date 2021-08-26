@@ -22,15 +22,10 @@
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/realtime_chart"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/nav_menu"
+        android:layout_height="460dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
-
-    </com.github.mikephil.charting.charts.LineChart>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_menu"
@@ -47,6 +42,7 @@
         app:menu="@menu/menu_navigation">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline6"
         android:layout_width="wrap_content"
@@ -75,6 +71,27 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="1.0" />
 
+    <Switch
+        android:id="@+id/switch_start_stop"
+        android:layout_width="98dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="64dp"
+        android:text="Start"
+        app:layout_constraintBottom_toBottomOf="@+id/nav_menu"
+        app:layout_constraintEnd_toStartOf="@+id/progressBar3"
+        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintStart_toStartOf="@+id/guideline8" />
+
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="741dp"
+        android:layout_height="7dp"
+        android:layout_marginBottom="68dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.926"
+        app:layout_constraintStart_toStartOf="@+id/nav_menu" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

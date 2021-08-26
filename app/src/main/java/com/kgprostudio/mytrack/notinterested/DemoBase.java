@@ -1,4 +1,5 @@
-package com.kgprostudio.mytrack.test;
+package com.kgprostudio.mytrack.notinterested;
+
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
@@ -12,9 +13,10 @@ import androidx.core.app.ActivityCompat;
 import android.view.View;
 import android.widget.Toast;
 
+
 import com.github.mikephil.charting.charts.Chart;
 import com.kgprostudio.mytrack.R;
-import com.xxmassdeveloper.mpchartexample.R;
+
 
 /**
  * Base class of all Activities of the Demo Application.
@@ -43,8 +45,8 @@ public abstract class DemoBase extends AppCompatActivity implements ActivityComp
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        tfRegular = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
-        tfLight = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
+       //tfRegular = Typeface.createFromAsset(getAssets(), "com\\kgprostudio\\mytrack\\assets\\OpenSans-Regular.ttf");
+        //tfLight = Typeface.createFromAsset(getAssets(), "com\\kgprostudio\\mytrack\\assets\\OpenSans-Light.ttf");
     }
 
     protected float getRandom(float range, float start) {
@@ -54,8 +56,7 @@ public abstract class DemoBase extends AppCompatActivity implements ActivityComp
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
-        overridePendingTransition(R.anim.activity_move_left_in_activity, R.anim.move_right_out_activity);
+        overridePendingTransition(R.anim.activity_move_left_in_activity, R.anim.activity_move_left_out_activity);
     }
 
     @Override

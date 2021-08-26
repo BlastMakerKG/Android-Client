@@ -28,8 +28,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.kgprostudio.mytrack.connectingtoserver.Client;
 import com.kgprostudio.mytrack.file_system.XMLWorker;
+import com.kgprostudio.mytrack.graph.DateClass;
 import com.kgprostudio.mytrack.graph.HodographPoints;
-import com.kgprostudio.mytrack.graph.TimeClass;
 import com.kgprostudio.mytrack.locationpackage.LocationClass;
 import com.kgprostudio.mytrack.map_tools.MapTools;
 
@@ -119,9 +119,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     Date date_start;
     Date date_current;
 
-    private ArrayList<TimeClass> timeClasses = new ArrayList<>();
+
     private ArrayList<Integer> test_int = new ArrayList<>();
-    TimeClass timeClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -316,11 +315,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     date_now = new Date();
                     test_int.add(count_int);
                     count_int++;
-                    timeClass = new TimeClass(count, count,timer_track.getBase());
-                    timeClasses.add(timeClass);
+
+                    DateClass dateClass  = new DateClass(count, count,timer_track.getBase());
                     Intent myObj = new Intent(MainActivity.this, TruckPointActivity.class);
-                    myObj.putExtra("time_date", timeClass);
-                    myObj.putExtra("int_test", count_int);
+
+                    myObj.putExtra("date", dateClass);
                     Log.d("Object" ,"Упакован");
                     date_format = dateFormat.format(date_now);
                     locationClass[0] = new LocationClass(1, date_format, lastLocation.getLatitude()-count, lastLocation.getLongitude(), lastLocation.getAltitude(), distanc, speed);
@@ -345,7 +344,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                     if (currentLanLng != null) {
                         temp = temp + 0.001;
-                        currentLanLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude() + temp);
+                        currentLanLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
                         latLngs.add(currentLanLng);
                         Log.d("Coordinates", currentLanLng.toString());
                         // temp += 0.001;

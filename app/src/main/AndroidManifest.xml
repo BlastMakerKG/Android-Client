@@ -23,8 +23,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <activity android:name=".move_left_out_activity"></activity>
-        <activity android:name=".move_left_in_activity" />
         <activity android:name=".connectingtoserver.Client" />
         <activity android:name=".TruckPointActivity" />
         <activity android:name=".MyTracksActivity" />
