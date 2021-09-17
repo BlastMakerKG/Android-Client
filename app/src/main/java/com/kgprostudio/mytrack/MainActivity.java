@@ -28,8 +28,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.kgprostudio.mytrack.connectingtoserver.Client;
 import com.kgprostudio.mytrack.file_system.XMLWorker;
-import com.kgprostudio.mytrack.graph.DateClass;
-import com.kgprostudio.mytrack.graph.HodographPoints;
+import com.kgprostudio.mytrack.graph.DatePoint;
 import com.kgprostudio.mytrack.locationpackage.LocationClass;
 import com.kgprostudio.mytrack.map_tools.MapTools;
 
@@ -114,7 +113,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     Client[] clients = new Client[4];
 
     LocationClass[] locationClass = new LocationClass[10];
-    ArrayList<HodographPoints> hodographPoints = new ArrayList<HodographPoints>();
+
 
     Date date_start;
     Date date_current;
@@ -142,7 +141,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             latLngs = new ArrayList<LatLng>();
         }
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        // Инициализация Google карты
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map_id);
         mapFragment.getMapAsync(this);
@@ -155,7 +154,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putParcelableArrayList(LatLng_key, latLngs);
-        //avedInstanceState.putParcelable(map_key, (Parcelable) mMap);
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -171,10 +169,10 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         dbHelper = new DBHelper(this);
         Bundle arguments = getIntent().getExtras();
 
+        // Получение обьекта из другогг активити
         if(arguments!=null){
             ip = arguments.get("ip").toString();
             port = arguments.getInt("port");
-
         }
     }
 
@@ -184,6 +182,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         SQLiteDatabase database = dbHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         testClass = new TestClass(10, "Erlan");
+        double counter = 0.0;
 
         record_btn.setOnClickListener(new View.OnClickListener() {
 
@@ -194,12 +193,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     LatLng startLoc = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
                     mMap.addMarker(new MarkerOptions().position(startLoc).title("Start location")).setIcon(BitmapDescriptorFactory.defaultMarker(250));
 
-
-                    for(int i = 0; i < 4; i++)
-                    {
-                        clients[i] = new Client();
-                        clients[i].ConnectToServer(ip, port);
-                    }
+                    clients[0] = new Client();
+                    clients[0].ConnectToServer(ip, port);
 
                     // timer_track.setBase(SystemClock.elapsedRealtime());
                 }
@@ -229,8 +224,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
 
-                XMLWorker file_worker = new XMLWorker();
-                file_worker.writeFile(hodographPoints);
+                //XMLWorker file_worker = new XMLWorker();
+                // file_worker.writeFile(hodographPoints);
+
                 timer_track.stop();
                 timer_track.setBase(SystemClock.elapsedRealtime());
                 lastTime = 0;
@@ -247,7 +243,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
 
                 LatLng finishLoc = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-                MapTools.putMarkerInMap(mMap, finishLoc, "Track started location");
+               // MapTools.putMarkerInMap(mMap, finishLoc, "Track started location");
 
                 Toast.makeText(MainActivity.this, "Запись данных окончена и сохранена", Toast.LENGTH_SHORT).show();
                 record_btn.setEnabled(true);
@@ -269,10 +265,10 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        //
         pause_rec_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 pause_rec_btn.setEnabled(false);
                 pause_rec_btn.setVisibility(View.GONE);
@@ -299,8 +295,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void Record(long last_time) {
-
-
         if (last_time != 0) {
             timer_track.setBase(timer_track.getBase() + SystemClock.elapsedRealtime() - last_time);
         }
@@ -310,16 +304,16 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void run() {
                 int count_int  = 1;
-                double count= 0.1;
+                double count= 0;
                 while (pause_btn.isEnabled()) {
                     date_now = new Date();
                     test_int.add(count_int);
                     count_int++;
 
-                    DateClass dateClass  = new DateClass(count, count,timer_track.getBase());
+                    DatePoint myDate  = new DatePoint((int)count, (int)count);
                     Intent myObj = new Intent(MainActivity.this, TruckPointActivity.class);
 
-                    myObj.putExtra("date", dateClass);
+                    myObj.putExtra("date", myDate);
                     Log.d("Object" ,"Упакован");
                     date_format = dateFormat.format(date_now);
                     locationClass[0] = new LocationClass(1, date_format, lastLocation.getLatitude()-count, lastLocation.getLongitude(), lastLocation.getAltitude(), distanc, speed);
@@ -327,24 +321,21 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     locationClass[2] = new LocationClass(3, date_format, lastLocation.getLatitude(), lastLocation.getLongitude()+count, lastLocation.getAltitude(), distanc, speed);
                     locationClass[3] = new LocationClass(4, date_format, lastLocation.getLatitude(), lastLocation.getLongitude()-count, lastLocation.getAltitude(), distanc, speed);
                     date_current = new Date();
-                    hodographPoints.add(new HodographPoints(lastLocation.getSpeed(),distanc,date_current));
-
-                    count += 0.1;
+                    count += 0.001;
 
                     //  DateBaseTools.RecordToDB(database, contentValues, locClass, stop_btn);
 
-                    try {
-                        for (int i=0; i<4; i++)
-                        {
-                            clients[i].TransferToServer(locationClass[i],i);
-                        }
+                 try {
 
-                    } catch (Exception exception) {
-                        exception.printStackTrace();
-                    }
+                         clients[0].TransferToServer(locationClass[0],1);
+
+
+                 } catch (Exception exception) {
+                     exception.printStackTrace();
+                 }
                     if (currentLanLng != null) {
                         temp = temp + 0.001;
-                        currentLanLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+                        currentLanLng = new LatLng(lastLocation.getLatitude()+temp, lastLocation.getLongitude());
                         latLngs.add(currentLanLng);
                         Log.d("Coordinates", currentLanLng.toString());
                         // temp += 0.001;
@@ -357,7 +348,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         });
 
                         try {
-                            Thread.sleep(1000);
+                            Thread.sleep(2000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -445,15 +436,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             if (lastLocation != null) {
                 LatLng currentLoc = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
 
-                // mMap.addMarker(new MarkerOptions().position(currentLoc).title("Marker in Sydney"));
-
-                MapTools.putMarkerInMap(mMap, currentLoc, "Track started location");
                 LatLng ltnLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
                 // mMap.moveCamera(CameraUpdateFactory.newLatLng(bishkek));
                 MapTools.setCameraGmap(mMap, ltnLng);
             } else {
                 LatLng currentLoc = new LatLng(42.873686, 74.614307);
-
                 mMap.addMarker(new MarkerOptions().position(currentLoc).title("Marker in Sydney"));
 
                 // mMap.moveCamera(CameraUpdateFactory.newLatLng(bishkek));

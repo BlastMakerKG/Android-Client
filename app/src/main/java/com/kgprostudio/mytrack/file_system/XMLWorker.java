@@ -2,12 +2,10 @@ package com.kgprostudio.mytrack.file_system;
 
 import android.os.Environment;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.kgprostudio.mytrack.MainActivity;
-import com.kgprostudio.mytrack.R;
-import com.kgprostudio.mytrack.graph.HodographPoints;
-import com.kgprostudio.mytrack.locationpackage.LocationClass;
+import com.kgprostudio.mytrack.graph.DatePoint;
+
+import org.apache.commons.lang3.reflect.Typed;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,7 +20,8 @@ public class XMLWorker {
 
     private static final String fileName = "hello.xml";
 
-    public void writeFile(ArrayList<HodographPoints> hodographPoints) {
+    // Запись файла в XML формате
+    public void writeFile(ArrayList<DatePoint> hodographPoints) {
         try {
             /*
              * Создается объект файла, при этом путь к файлу находиться методом класcа Environment
@@ -31,7 +30,7 @@ public class XMLWorker {
             File myFile = new File(Environment.getExternalStorageDirectory().toString() + "/" + fileName);
             myFile.createNewFile();                                         // Создается файл, если он не был создан
             FileOutputStream outputStream = new FileOutputStream(myFile);
-            for (HodographPoints temp: hodographPoints
+            for (DatePoint temp: hodographPoints
                  ) {
                 outputStream.write((temp.toString()+"\n").getBytes());
 

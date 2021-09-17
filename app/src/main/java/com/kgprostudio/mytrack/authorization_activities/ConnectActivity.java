@@ -16,6 +16,7 @@ public class ConnectActivity extends AppCompatActivity {
     private EditText ip_adress, port;
     private Button connect;
 
+    // Реализация окна подлкючения к серверу
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,10 +27,15 @@ public class ConnectActivity extends AppCompatActivity {
     }
 
     public void onClick1(View view){
+
+        // Получение введенных данных
         String ip = ip_adress.getText().toString();
         int port_num = Integer.parseInt(port.getText().toString());
 
+        // Переход в след. активити
         Intent intent = new Intent(ConnectActivity.this, MainActivity.class);
+
+        // Передача данных  в след. активити
         intent.putExtra("ip", ip);
         intent.putExtra("port", port_num);
         startActivity(intent);

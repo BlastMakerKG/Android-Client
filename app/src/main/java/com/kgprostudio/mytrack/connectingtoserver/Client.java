@@ -12,6 +12,8 @@ public class Client extends MainActivity {
 
     private Socket socket;
 
+
+    // Подключение к серверу
     public void ConnectToServer(String ip , int port)
     {
         Runnable runnable = new Runnable() {
@@ -33,27 +35,29 @@ public class Client extends MainActivity {
     }
 
 
-    public  void MultiConnectToServer(String ip , int port)
-    {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    socket = new Socket(ip, port);
-                    Log.d("Connect", "К серверу подключены");
+  // public  void MultiConnectToServer(String ip , int port)
+  // {
+  //     Runnable runnable = new Runnable() {
+  //         @Override
+  //         public void run() {
+  //             try{
+  //                 socket = new Socket(ip, port);
+  //                 Log.d("Connect", "К серверу подключены");
 
-                }
-                catch (Exception exception)
-                {
-                    exception.printStackTrace();
-                }
-            }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();
+  //             }
+  //             catch (Exception exception)
+  //             {
+  //                 exception.printStackTrace();
+  //             }
+  //         }
+  //     };
+  //     Thread thread = new Thread(runnable);
+  //     thread.start();
 
-    }
+  // }
 
+
+    // Передача данных на сервер
     public  void TransferToServer(LocationClass loc, int id)
     {
         if(socket != null)

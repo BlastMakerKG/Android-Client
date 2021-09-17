@@ -1,6 +1,8 @@
 package com.kgprostudio.mytrack.graph;
 
-public class DatePoint {
+import java.io.Serializable;
+
+public class DatePoint implements Serializable {
 
     public DatePoint(float x, float y) {
         this.x = x;

@@ -38,6 +38,8 @@ public class DBHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+
+    // Создание базы данных
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE "+ TABLE_CONTACTS + "("
@@ -52,6 +54,7 @@ public class DBHelper extends SQLiteOpenHelper {
         );
     }
 
+    // Обновление данных
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_CONTACTS);

@@ -20,20 +20,13 @@ public class MapTools extends MainActivity {
     static MarkerOptions markerOptions;
     static int counter = 0;
 
+    // Рисование линии маршрута
     public static void DrawLine(GoogleMap googleMap, LatLng latLng) {
 
         if (flag) {
-           // line = new PolylineOptions().add(latLng).width(20).color(R.color.track_color);
-
-            //new PolylineOptions().add(new LatLng(42.872797, 74.587889),
-            //        new LatLng(42.875313, 74.588243),
-            //        new LatLng(42.875124, 74.591503),
-            //        new LatLng(42.873894, 74.591417),
-            //        new LatLng(42.873792, 74.593348))
-
-            flag = false;
             Log.d("FirstInit", "FisrtInitDone");
             setCameraGmap(googleMap,latLng);
+            flag = false;
         }
 
         else {
@@ -52,6 +45,7 @@ public class MapTools extends MainActivity {
         Log.d("Map draw",  counter + "");
     }
 
+    // Приведение камеры в текущие координаты
     public static void setCameraGmap(GoogleMap googleMap,LatLng latLng) {
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(latLng)
@@ -61,8 +55,4 @@ public class MapTools extends MainActivity {
         googleMap.animateCamera(cameraUpdate);
     }
 
-    public  static void putMarkerInMap(GoogleMap googleMap, LatLng latLng, String tittle)
-    {
-
-    }
 }

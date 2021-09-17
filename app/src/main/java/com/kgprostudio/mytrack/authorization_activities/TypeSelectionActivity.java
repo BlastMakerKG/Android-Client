@@ -28,6 +28,8 @@ public class TypeSelectionActivity extends AppCompatActivity {
     }
 
     public void onClick() {
+
+        // Выбран самосвал
     truck_btn.setOnClickListener(new View.OnClickListener() {
       @Override
          public void onClick(View v) {
@@ -40,6 +42,8 @@ public class TypeSelectionActivity extends AppCompatActivity {
     excavator_btn.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
+            // Выбран экскаватор
             Intent intent = new Intent(TypeSelectionActivity.this, AuthorizationActivity.class);
             intent.putExtra("excavator_key", excavator_str);
             startActivity(intent);

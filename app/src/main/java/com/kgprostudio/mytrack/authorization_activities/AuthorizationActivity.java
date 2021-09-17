@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.kgprostudio.mytrack.R;
 
+ // Реализация оуна авторизации
 public class AuthorizationActivity extends AppCompatActivity {
 
     private EditText username;
@@ -26,10 +27,13 @@ public class AuthorizationActivity extends AppCompatActivity {
         username = (EditText) findViewById(R.id.ip_eT);
         password = (EditText) findViewById(R.id.port_eT);
         login = (Button) findViewById(R.id.connect_server_btn);
+
+        // Скрытие введенного пароля
         password.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
     }
 
+    // Обработка клика кнопки выбора типа самосвала
     public void onClick2(View view){
 
         if (username.getText().toString().equals("admin") &&

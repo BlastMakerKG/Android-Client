@@ -34,7 +34,6 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jjoe64.graphview.series.DataPoint;
-import com.kgprostudio.mytrack.graph.DateClass;
 import com.kgprostudio.mytrack.graph.DatePoint;
 import com.kgprostudio.mytrack.notinterested.DemoBase;
 
@@ -206,10 +205,7 @@ public class TruckPointActivity extends DemoBase implements
            // optim_vel = (float)(set1.getEntryCount() + 10f);
 
             Intent myObj = getIntent();
-            DateClass date = (DateClass) myObj.getSerializableExtra("date");
-            if( date == null){
-                Log.d("Null","Your object is null");
-            }
+
 
            // Log.d("Count" , time.toString());
 
@@ -299,7 +295,7 @@ public class TruckPointActivity extends DemoBase implements
         LineDataSet set = new LineDataSet(null, desc);
         set.setAxisDependency(AxisDependency.RIGHT);
         //set.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-       // set.setCubicIntensity(0.2f);
+        //set.setCubicIntensity(0.2f);
         set.setColor(color);
         set.setCircleColor(Color.WHITE);
         set.setLineWidth(3f);
