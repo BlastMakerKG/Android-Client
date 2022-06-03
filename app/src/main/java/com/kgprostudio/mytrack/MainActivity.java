@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.kgprostudio.mytrack.connectingtoserver.Client;
+import com.kgprostudio.mytrack.connectingtoserver.UDPClient;
 import com.kgprostudio.mytrack.file_system.XMLWorker;
 import com.kgprostudio.mytrack.graph.DatePoint;
 import com.kgprostudio.mytrack.locationpackage.LocationClass;
@@ -45,6 +46,7 @@ import com.kgprostudio.mytrack.locationpackage.MyLocListener;
 import com.kgprostudio.mytrack.test.TestClass;
 
 import java.net.Socket;
+import java.net.SocketException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -110,7 +112,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     public static final String map_key = "map_key";
     private ArrayList<LatLng> latLngs;
     TestClass testClass;
-    Client[] clients = new Client[4];
+    UDPClient[] clients = new UDPClient[4];
 
     LocationClass[] locationClass = new LocationClass[10];
 
@@ -193,8 +195,15 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     LatLng startLoc = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
                     mMap.addMarker(new MarkerOptions().position(startLoc).title("Start location")).setIcon(BitmapDescriptorFactory.defaultMarker(250));
 
-                    clients[0] = new Client();
-                    clients[0].ConnectToServer(ip, port);
+                    try {
+                        clients[0] = new UDPClient();
+                        clients[0].ConnectToServer(ip, port);
+                        clients[1] = new UDPClient();
+                        clients[1].ConnectToServer(ip, port);
+                    } catch (SocketException e) {
+                        e.printStackTrace();
+                    }
+
 
                     // timer_track.setBase(SystemClock.elapsedRealtime());
                 }
@@ -317,7 +326,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     Log.d("Object" ,"Упакован");
                     date_format = dateFormat.format(date_now);
                     locationClass[0] = new LocationClass(1, date_format, lastLocation.getLatitude()-count, lastLocation.getLongitude(), lastLocation.getAltitude(), distanc, speed);
-                    locationClass[1] = new LocationClass(2, date_format, lastLocation.getLatitude()+count, lastLocation.getLongitude(), lastLocation.getAltitude(), distanc, speed);
+                    locationClass[1] = new LocationClass(2, date_format, lastLocation.getLatitude()+count, lastLocation.getLongitude(), lastLocation.getAltitude()+count, distanc, speed);
                     locationClass[2] = new LocationClass(3, date_format, lastLocation.getLatitude(), lastLocation.getLongitude()+count, lastLocation.getAltitude(), distanc, speed);
                     locationClass[3] = new LocationClass(4, date_format, lastLocation.getLatitude(), lastLocation.getLongitude()-count, lastLocation.getAltitude(), distanc, speed);
                     date_current = new Date();
@@ -328,6 +337,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                  try {
 
                          clients[0].TransferToServer(locationClass[0],1);
+                         clients[1].TransferToServer(locationClass[1],2);
 
 
                  } catch (Exception exception) {
